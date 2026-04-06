@@ -17,6 +17,7 @@ class _InventoryListState extends State<InventoryList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.pink.shade50,
       appBar: AppBar(title: const Text('Inventory')),
       body: StreamBuilder<List<Item>>(
         stream: _service.watchItems(),
@@ -43,27 +44,35 @@ class _InventoryListState extends State<InventoryList> {
           }
 
           return ListView.separated(
+            padding: const EdgeInsets.all(12),
             itemCount: items.length,
-            separatorBuilder: (_, _) => const Divider(height: 1),
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               final item = items[index];
-              return ListTile(
-                title: Text(item.name),
-                subtitle: Text(
-                  'Qty: ${item.quantity}  |  \$${item.price.toStringAsFixed(2)}',
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit_outlined),
-                      onPressed: () => _showItemForm(initialItem: item),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete_outline),
-                      onPressed: () => _deleteItem(item),
-                    ),
-                  ],
+              return Card(
+                elevation: 1,
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  title: Text(item.name),
+                  subtitle: Text(
+                    'Qty: ${item.quantity}  |  \$${item.price.toStringAsFixed(2)}',
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit_outlined),
+                        onPressed: () => _showItemForm(initialItem: item),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete_outline),
+                        onPressed: () => _deleteItem(item),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
