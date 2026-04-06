@@ -1,17 +1,22 @@
 # inventory_app
 
-A new Flutter project.
+A Flutter + Firebase inventory app with live updates and typed data handling.
+
+## Enhanced Features
+
+### 1) Live Inventory Updates with Typed Streams
+- The app uses `StreamBuilder<List<Item>>` to listen to Firestore changes in real time.
+- Firestore access is centralized in `InventoryService`, which returns typed streams (`Stream<List<Item>>`) instead of dynamic maps.
+- Result: inventory changes appear instantly on screen while keeping code safer and easier to maintain.
+- It also uses strong typing too with the elements of the database. 
+
+### 2) Improved User Experience and Reusable Forms
+- A reusable `ItemFormDialog` supports both add and edit flows with built-in validation.
+- The inventory screen now clearly communicates loading, empty, and error states.
+- UI polish includes padded card-style list items, delete confirmation, and consistent 2-decimal price formatting on a pink themed background.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Run `flutter pub get`
+2. Ensure Firebase is configured for your platform.
+3. Run the app with `flutter run`
