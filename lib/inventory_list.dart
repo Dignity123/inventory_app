@@ -43,13 +43,34 @@ class _InventoryListState extends State<InventoryList> {
             );
           }
 
-          return ListView.separated(
+          final totalProducts = items.length;
+          final totalUnits = items.fold<int>(
+            0,
+            (sum, item) => sum + item.quantity,
+          );
+          final totalValue = items.fold<double>(
+            0,
+            (sum, item) => sum + (item.quantity * item.price),
+          );
+
+          return ListView.builder(
             padding: const EdgeInsets.all(12),
-            itemCount: items.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 10),
+            itemCount: items.length + 1,
             itemBuilder: (context, index) {
-              final item = items[index];
+              if (index == 0) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _InventorySummaryCard(
+                    totalProducts: totalProducts,
+                    totalUnits: totalUnits,
+                    totalValue: totalValue,
+                  ),
+                );
+              }
+
+              final item = items[index - 1];
               return Card(
+                margin: const EdgeInsets.only(bottom: 10),
                 elevation: 1,
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(
@@ -173,6 +194,64 @@ class _InventoryStateMessage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _InventorySummaryCard extends StatelessWidget {
+  const _InventorySummaryCard({
+    required this.totalProducts,
+    required this.totalUnits,
+    required this.totalValue,
+  });
+
+  final int totalProducts;
+  final int totalUnits;
+  final double totalValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.pink.shade100,
+      elevation: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _SummaryColumn(label: 'Products', value: '$totalProducts'),
+            _SummaryColumn(label: 'Units', value: '$totalUnits'),
+            _SummaryColumn(
+              label: 'Value',
+              value: '\$${totalValue.toStringAsFixed(2)}',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SummaryColumn extends StatelessWidget {
+  const _SummaryColumn({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          value,
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4),
+        Text(label),
+      ],
     );
   }
 }

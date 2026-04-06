@@ -15,6 +15,10 @@ A Flutter + Firebase inventory app with live updates and typed data handling.
 - The inventory screen now clearly communicates loading, empty, and error states.
 - UI polish includes padded card-style list items, delete confirmation, and consistent 2-decimal price formatting on a pink themed background.
 
+### 3) Live Inventory Summary Dashboard
+- A summary card at the top of the inventory list shows **total products**, **total units in stock**, and **total inventory value** (sum of `quantity × price` per item).
+- It is driven by the same typed `StreamBuilder<List<Item>>` stream, so totals update instantly when items are added, edited, or deleted—no extra refresh logic.
+
 ## Getting Started
 
 1. Run `flutter pub get`
